@@ -675,12 +675,27 @@ function splitChrome({leading = null, trailing = null}) {
     return root;
 }
 
-export function buildIdleView() {
-    return new St.Widget({
+export function buildIdleView(clockText) {
+    const time = label(clockText, 'dynamic-island-clock');
+    time.opacity = 0;
+    const root = new St.Bin({
         style_class: 'dynamic-island-idle',
         x_expand: true,
         y_expand: true,
     });
+    root.set_child(time);
+    root.setHover = hover => {
+        time.remove_all_transitions();
+        time.ease({
+            opacity: hover ? 255 : 0,
+            duration: 140,
+            mode: Clutter.AnimationMode.EASE_OUT_QUAD,
+        });
+    };
+    root.updateClock = text => {
+        time.text = text ?? '';
+    };
+    return root;
 }
 
 export function buildMediaCompact(payload) {
@@ -1168,6 +1183,6 @@ export function buildView(activity, clockText) {
         return buildRecordingView(payload, clockText, expanded);
     case Kind.IDLE:
     default:
-        return buildIdleView();
+        return buildIdleView(clockText);
     }
 }
