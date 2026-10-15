@@ -29,6 +29,12 @@ stack.upsert({id: 'media', kind: Kind.MEDIA, persistent: true, payload: {title: 
 assertEq(stack.current().kind, Kind.MEDIA, 'persistent media is current');
 assertEq(stack.current().payload.title, 'Song', 'media payload kept');
 
+stack.upsert({id: 'date', kind: Kind.DATE, durationMs: 1000, payload: {label: 'Thu, 15 Oct'}});
+assertEq(stack.current().kind, Kind.DATE, 'date change preempts media');
+assertEq(stack.current().priority, Priority[Kind.DATE], 'date change has its activity priority');
+stack.remove('date');
+assertEq(stack.current().kind, Kind.MEDIA, 'date dismissal restores media');
+
 stack.upsert({id: 'osd-volume', kind: Kind.VOLUME, durationMs: 500, payload: {level: 0.4}});
 assertEq(stack.current().kind, Kind.VOLUME, 'transient OSD preempts media');
 

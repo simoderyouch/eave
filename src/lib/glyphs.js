@@ -15,6 +15,7 @@ export const Glyph = {
     batteryCharge: 'battery-charge',
     bluetooth: 'bluetooth',
     camera: 'camera',
+    calendar: 'calendar',
     record: 'record',
 };
 
@@ -216,6 +217,21 @@ export function paintGlyph(cr, kind, size, color = null) {
         cr.fill();
         roundedRect(cr, u * 0.22, u * 0.18, u * 0.22, u * 0.12, u * 0.04);
         cr.fill();
+        break;
+    }
+    case Glyph.calendar: {
+        roundedRect(cr, u * 0.12, u * 0.18, u * 0.76, u * 0.68, u * 0.12);
+        cr.setLineWidth(Math.max(1.4, u * 0.08));
+        cr.stroke();
+        cr.moveTo(u * 0.12, u * 0.38);
+        cr.lineTo(u * 0.88, u * 0.38);
+        cr.stroke();
+        cr.setLineCap(1);
+        cr.moveTo(u * 0.32, u * 0.08);
+        cr.lineTo(u * 0.32, u * 0.28);
+        cr.moveTo(u * 0.68, u * 0.08);
+        cr.lineTo(u * 0.68, u * 0.28);
+        cr.stroke();
         break;
     }
     case Glyph.record:

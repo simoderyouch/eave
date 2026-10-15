@@ -63,6 +63,7 @@ What `main` ships today:
 | Media (expanded) | Click opens a 344×84 now-playing panel: album art, clipped marquee title/artist, art-tinted waveform, inline seek times, capsule scrubber, and transport controls |
 | Volume / brightness / mute | Thick-capsule HUD in the island (not the stock GNOME OSD) |
 | Charging | Percentage when you plug in |
+| Date change | Brief local-date pill after midnight or waking across a date boundary |
 | Bluetooth | Device name on connect |
 | Recording / mic | Persistent compact activity while in use |
 

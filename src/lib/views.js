@@ -1006,6 +1006,23 @@ export function buildChargingView(payload) {
     return root;
 }
 
+export function buildDateView(payload) {
+    const title = label(payload?.label ?? '', 'dynamic-island-title dynamic-island-date-title');
+    const root = new St.BoxLayout({
+        style_class: 'dynamic-island-date',
+        x_expand: true,
+        y_expand: true,
+        y_align: Clutter.ActorAlign.CENTER,
+    });
+    root.add_child(title);
+    root.add_child(new St.Widget({x_expand: true, height: 1}));
+    root.add_child(glyphActor(Glyph.calendar, 18));
+    root.update = next => {
+        title.text = next?.label ?? '';
+    };
+    return root;
+}
+
 export function buildBluetoothView(payload) {
     const title = label(payload?.name ? payload.name : 'Connected', 'dynamic-island-title');
     const sub = label('Bluetooth', 'dynamic-island-subtitle');
@@ -1107,6 +1124,8 @@ export function buildView(activity, clockText) {
         return buildOsdView({...payload, kind});
     case Kind.CHARGING:
         return buildChargingView(payload);
+    case Kind.DATE:
+        return buildDateView(payload);
     case Kind.BLUETOOTH:
         return buildBluetoothView(payload);
     case Kind.PRIVACY:

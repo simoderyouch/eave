@@ -51,6 +51,10 @@ assert(charging.height === idle.height, 'charging height matches idle after fit'
 assert(charging.radius === idle.radius, 'charging keeps a stadium radius after fit');
 assert(charging.width > idle.width, 'charging is wider than the idle notch');
 
+const date = fitGeometryToPanel(geometryFor('date'), 32);
+assert(date.compact === true, 'date change stays compact');
+assert(date.width === charging.width, 'date change shares charging-pill width');
+
 const osd = fitGeometryToPanel(geometryFor('volume'), 32);
 assert(osd.height === idle.height, 'osd height matches idle after fit');
 
