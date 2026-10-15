@@ -40,6 +40,8 @@ assert(geometryFor('charging').compact === true, 'charging stays compact');
 assert(geometryFor('charging').width > geometryFor('idle').width, 'charging is wider than idle');
 assert(geometryFor('date').compact === true, 'date change stays compact');
 assert(geometryFor('date').width === geometryFor('charging').width, 'date uses charging pill geometry');
+assert(geometryFor('focus').compact === true, 'Focus stays compact');
+assert(geometryFor('focus').width === geometryFor('charging').width, 'Focus uses charging pill geometry');
 assert(activityKey({id: 'media', kind: 'media', expanded: false}) === 'media:media:0', 'activity key compact');
 assert(activityKey({id: 'media', kind: 'media', expanded: true}) === 'media:media:1', 'activity key expanded');
 

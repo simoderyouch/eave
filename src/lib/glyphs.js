@@ -16,6 +16,7 @@ export const Glyph = {
     bluetooth: 'bluetooth',
     camera: 'camera',
     calendar: 'calendar',
+    focus: 'focus',
     record: 'record',
 };
 
@@ -232,6 +233,16 @@ export function paintGlyph(cr, kind, size, color = null) {
         cr.moveTo(u * 0.68, u * 0.08);
         cr.lineTo(u * 0.68, u * 0.28);
         cr.stroke();
+        break;
+    }
+    case Glyph.focus: {
+        // A filled crescent reads clearly at compact-pill sizes.
+        cr.arc(u * 0.50, u * 0.50, u * 0.34, 0, Math.PI * 2);
+        cr.fill();
+        cr.setOperator(0); // Cairo.Operator.CLEAR
+        cr.arc(u * 0.64, u * 0.38, u * 0.31, 0, Math.PI * 2);
+        cr.fill();
+        cr.setOperator(2); // Cairo.Operator.OVER
         break;
     }
     case Glyph.record:

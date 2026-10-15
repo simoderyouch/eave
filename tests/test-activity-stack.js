@@ -35,6 +35,11 @@ assertEq(stack.current().priority, Priority[Kind.DATE], 'date change has its act
 stack.remove('date');
 assertEq(stack.current().kind, Kind.MEDIA, 'date dismissal restores media');
 
+stack.upsert({id: 'focus', kind: Kind.FOCUS, persistent: true});
+assertEq(stack.current().kind, Kind.FOCUS, 'Focus preempts media while Do Not Disturb is on');
+stack.remove('focus');
+assertEq(stack.current().kind, Kind.MEDIA, 'turning off Do Not Disturb restores media');
+
 stack.upsert({id: 'osd-volume', kind: Kind.VOLUME, durationMs: 500, payload: {level: 0.4}});
 assertEq(stack.current().kind, Kind.VOLUME, 'transient OSD preempts media');
 
