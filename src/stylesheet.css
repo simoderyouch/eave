@@ -318,6 +318,31 @@
     spacing: 0;
 }
 
+.dynamic-island-agent {
+    spacing: 0;
+}
+
+.dynamic-island-agent-dot {
+    border-radius: 4px;
+    background-color: #0a84ff;
+}
+
+.dynamic-island-agent-waiting .dynamic-island-agent-dot {
+    background-color: #ffd60a;
+}
+
+.dynamic-island-agent-success .dynamic-island-agent-dot {
+    background-color: #30d158;
+}
+
+.dynamic-island-agent-failed .dynamic-island-agent-dot {
+    background-color: #ff453a;
+}
+
+.dynamic-island-agent-cancelled .dynamic-island-agent-dot {
+    background-color: rgba(255, 255, 255, 0.45);
+}
+
 .dynamic-island-charging-trailing {
     spacing: 6px;
 }

@@ -11,6 +11,8 @@ schemas:
 
 test:
 	gjs --module tests/test-activity-stack.js
+	gjs --module tests/test-agent-status.js
+	gjs --module tests/test-agent-task-source.js
 	gjs --module tests/test-motion.js
 	gjs --module tests/test-clock-format.js
 	gjs --module tests/test-geometry.js

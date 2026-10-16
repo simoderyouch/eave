@@ -1038,6 +1038,39 @@ export function buildDateView(payload) {
     return root;
 }
 
+export function buildAgentTaskView(payload) {
+    const text = next => `${next?.source ?? 'Agent'} · ${next?.detail || next?.title || 'Working'}`;
+    const title = label(text(payload), 'dynamic-island-title');
+    const dot = new St.Widget({
+        style_class: 'dynamic-island-agent-dot',
+        width: 8,
+        height: 8,
+        y_align: Clutter.ActorAlign.CENTER,
+    });
+    const root = new St.BoxLayout({
+        style_class: 'dynamic-island-agent',
+        x_expand: true,
+        y_expand: true,
+        y_align: Clutter.ActorAlign.CENTER,
+    });
+    const applyState = next => {
+        const stateClass = `dynamic-island-agent-${next?.state ?? 'working'}`;
+        if (root._stateClass)
+            root.remove_style_class_name(root._stateClass);
+        root.add_style_class_name(stateClass);
+        root._stateClass = stateClass;
+    };
+    root.add_child(title);
+    root.add_child(new St.Widget({x_expand: true, height: 1}));
+    root.add_child(dot);
+    applyState(payload);
+    root.update = next => {
+        title.text = text(next);
+        applyState(next);
+    };
+    return root;
+}
+
 function buildCompactStatusView(titleText, glyphs, styleClass = '') {
     const title = label(titleText, 'dynamic-island-title');
     const trailing = new St.BoxLayout({
@@ -1171,6 +1204,8 @@ export function buildView(activity, clockText) {
         return buildOsdView({...payload, kind});
     case Kind.CHARGING:
         return buildChargingView(payload);
+    case Kind.AGENT_TASK:
+        return buildAgentTaskView(payload);
     case Kind.DATE:
         return buildDateView(payload);
     case Kind.FOCUS:

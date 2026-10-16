@@ -66,10 +66,29 @@ What `main` ships today:
 | Date change | Brief local-date pill after midnight or waking across a date boundary |
 | Bluetooth | Device name on connect |
 | Recording / mic | Persistent compact activity while in use |
+| Local AI task | Compact task pulse from an opt-in local status file |
 
 The panel date/time stays where GNOME put it. Right-click the idle notch to open the calendar. Other MPRIS panel widgets (such as media-controls) are hidden by default so they do not sit behind the island.
 
 A later release can add a hybrid dashboard. v1 is live activities and transients only, no weather/notes hub.
+
+### Local AI task status
+
+Eave can show a compact local task pulse for AI agents, build scripts, or other tools. It reads only `*.json` files from `$XDG_RUNTIME_DIR/eave/tasks/`; files older than two minutes are ignored. The status contains short display text only—do not write prompts, source code, tokens, or logs to it.
+
+```json
+{
+  "id": "codex-eave",
+  "source": "Codex",
+  "title": "Add task pulse",
+  "state": "working",
+  "detail": "Running checks",
+  "progress": 80,
+  "updatedAt": 1760526000
+}
+```
+
+Valid states are `working`, `waiting`, `success`, `failed`, and `cancelled`. `updatedAt` accepts Unix seconds or milliseconds. Write updates atomically by replacing a temporary file, so Eave never reads an incomplete JSON document.
 
 Compact and expanded media tint the six-bar waveform from album art. Bars grow from the center (silence is a row of dots). GNOME has no per-app audio tap, so the motion on `main` is procedural rather than a live FFT.
 

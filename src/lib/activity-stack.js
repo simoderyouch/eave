@@ -4,6 +4,7 @@
 export const Kind = Object.freeze({
     IDLE: 'idle',
     MEDIA: 'media',
+    AGENT_TASK: 'agent-task',
     DATE: 'date',
     FOCUS: 'focus',
     RECORDING: 'recording',
@@ -18,6 +19,7 @@ export const Kind = Object.freeze({
 export const Priority = Object.freeze({
     [Kind.IDLE]: 0,
     [Kind.MEDIA]: 30,
+    [Kind.AGENT_TASK]: 45,
     [Kind.DATE]: 45,
     [Kind.FOCUS]: 50,
     [Kind.RECORDING]: 40,

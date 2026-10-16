@@ -10,6 +10,7 @@ import {Island} from './lib/island.js';
 import {hidePanelMediaControls, restorePanelMediaControls} from './lib/panel-media.js';
 import {Presenter} from './lib/presenter.js';
 import {BatterySource} from './lib/sources/battery.js';
+import {AgentTaskSource} from './lib/sources/agent-task.js';
 import {BluetoothSource} from './lib/sources/bluetooth.js';
 import {DateSource} from './lib/sources/date.js';
 import {FocusSource} from './lib/sources/focus.js';
@@ -41,6 +42,7 @@ export default class DynamicIslandExtension extends Extension {
         this._sources = [];
         this._addSource(() => new MprisSource({stack: this._stack, settings: this._settings}));
         this._addSource(() => new OsdSource({stack: this._stack, settings: this._settings}));
+        this._addSource(() => new AgentTaskSource({stack: this._stack, settings: this._settings}));
         this._addSource(() => new DateSource({stack: this._stack, settings: this._settings}));
         this._addSource(() => new FocusSource({stack: this._stack}));
         this._addSource(() => new BatterySource({stack: this._stack, settings: this._settings}));
