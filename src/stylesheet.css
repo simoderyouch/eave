@@ -322,6 +322,22 @@
     spacing: 0;
 }
 
+.dynamic-island-agent-expanded {
+    spacing: 3px;
+}
+
+.dynamic-island-agent-expanded-top {
+    spacing: 6px;
+}
+
+.dynamic-island-agent-expanded .dynamic-island-title {
+    font-size: 13px;
+}
+
+.dynamic-island-agent-expanded .dynamic-island-subtitle {
+    font-size: 11px;
+}
+
 .dynamic-island-agent-dot {
     border-radius: 4px;
     background-color: #0a84ff;

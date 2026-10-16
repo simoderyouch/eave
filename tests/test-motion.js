@@ -42,6 +42,9 @@ assert(geometryFor('date').compact === true, 'date change stays compact');
 assert(geometryFor('date').width === geometryFor('charging').width, 'date uses charging pill geometry');
 assert(geometryFor('focus').compact === true, 'Focus stays compact');
 assert(geometryFor('focus').width === geometryFor('charging').width, 'Focus uses charging pill geometry');
+assert(geometryFor('agent-task', false).compact === true, 'agent task compact geometry');
+assert(geometryFor('agent-task', true).height > geometryFor('agent-task', false).height,
+    'agent task viewer is taller than its pulse');
 assert(activityKey({id: 'media', kind: 'media', expanded: false}) === 'media:media:0', 'activity key compact');
 assert(activityKey({id: 'media', kind: 'media', expanded: true}) === 'media:media:1', 'activity key expanded');
 

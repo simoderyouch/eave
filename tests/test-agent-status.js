@@ -29,10 +29,12 @@ const working = normalizeAgentTask({
     state: 'working',
     detail: 'Running checks',
     progress: 81.7,
+    startedAt: 1_760_525_900,
     updatedAt: 1_760_526_000,
 });
 assert(working?.updatedAt === 1_760_526_000_000, 'Unix seconds normalize to milliseconds');
 assert(working?.progress === 82, 'progress rounds to a whole percent');
+assert(working?.startedAt === 1_760_525_900_000, 'start time normalizes to milliseconds');
 assert(working?.detail === 'Running checks', 'short status detail is preserved');
 assert(normalizeAgentTask({id: 'missing-fields'}) === null, 'invalid task is rejected');
 assert(!isAgentTaskStale(working, working.updatedAt + 119_999), 'fresh task is kept');

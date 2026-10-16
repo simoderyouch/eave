@@ -44,7 +44,7 @@ export class Presenter {
             return;
         }
 
-        if (cur.kind === Kind.MEDIA || cur.kind === Kind.RECORDING) {
+        if (cur.kind === Kind.MEDIA || cur.kind === Kind.RECORDING || cur.kind === Kind.AGENT_TASK) {
             this._stack.toggleExpanded();
             return;
         }

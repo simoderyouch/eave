@@ -1038,7 +1038,30 @@ export function buildDateView(payload) {
     return root;
 }
 
-export function buildAgentTaskView(payload) {
+function taskStateLabel(state) {
+    return ({
+        working: 'Working',
+        waiting: 'Needs input',
+        success: 'Done',
+        failed: 'Failed',
+        cancelled: 'Cancelled',
+    })[state] ?? 'Working';
+}
+
+function taskElapsed(startedAt) {
+    const seconds = Math.max(0, Math.floor((Date.now() - Number(startedAt ?? Date.now())) / 1000));
+    const minutes = Math.floor(seconds / 60);
+    return `${minutes}:${String(seconds % 60).padStart(2, '0')}`;
+}
+
+function agentStateClass(payload) {
+    return `dynamic-island-agent-${payload?.state ?? 'working'}`;
+}
+
+export function buildAgentTaskView(payload, expanded = false) {
+    if (expanded)
+        return buildAgentTaskExpanded(payload);
+
     const text = next => `${next?.source ?? 'Agent'} · ${next?.detail || next?.title || 'Working'}`;
     const title = label(text(payload), 'dynamic-island-title');
     const dot = new St.Widget({
@@ -1054,7 +1077,7 @@ export function buildAgentTaskView(payload) {
         y_align: Clutter.ActorAlign.CENTER,
     });
     const applyState = next => {
-        const stateClass = `dynamic-island-agent-${next?.state ?? 'working'}`;
+        const stateClass = agentStateClass(next);
         if (root._stateClass)
             root.remove_style_class_name(root._stateClass);
         root.add_style_class_name(stateClass);
@@ -1067,6 +1090,65 @@ export function buildAgentTaskView(payload) {
     root.update = next => {
         title.text = text(next);
         applyState(next);
+    };
+    return root;
+}
+
+function buildAgentTaskExpanded(payload) {
+    const hold = {payload};
+    const source = label(payload?.source ?? 'Agent', 'dynamic-island-subtitle');
+    const title = label(payload?.title ?? 'Working', 'dynamic-island-title', true);
+    const status = label('', 'dynamic-island-subtitle', true);
+    const progress = levelBar((payload?.progress ?? 0) / 100);
+    const progressText = label('', 'dynamic-island-seek-time');
+    const top = new St.BoxLayout({
+        style_class: 'dynamic-island-agent-expanded-top',
+        x_expand: true,
+    });
+    top.add_child(source);
+    top.add_child(new St.Widget({x_expand: true, height: 1}));
+    top.add_child(progressText);
+
+    const root = new St.BoxLayout({
+        vertical: true,
+        style_class: 'dynamic-island-agent dynamic-island-agent-expanded',
+        x_expand: true,
+        y_expand: true,
+        y_align: Clutter.ActorAlign.CENTER,
+    });
+    const paint = next => {
+        const current = next ?? {};
+        source.text = current.source ?? 'Agent';
+        title.text = current.title ?? 'Working';
+        status.text = `${taskStateLabel(current.state)} · ${taskElapsed(current.startedAt)}`;
+        if (current.progress == null) {
+            progress.visible = false;
+            progressText.text = current.detail ?? '';
+        } else {
+            progress.visible = true;
+            progress.setLevel(Number(current.progress) / 100);
+            progressText.text = `${Math.round(current.progress)}%`;
+        }
+        const stateClass = agentStateClass(current);
+        if (root._stateClass)
+            root.remove_style_class_name(root._stateClass);
+        root.add_style_class_name(stateClass);
+        root._stateClass = stateClass;
+    };
+    root.add_child(top);
+    root.add_child(title);
+    root.add_child(status);
+    root.add_child(progress);
+    paint(payload);
+
+    const tickId = GLib.timeout_add(GLib.PRIORITY_DEFAULT, 1000, () => {
+        status.text = `${taskStateLabel(hold.payload?.state)} · ${taskElapsed(hold.payload?.startedAt)}`;
+        return GLib.SOURCE_CONTINUE;
+    });
+    root.connect('destroy', () => GLib.source_remove(tickId));
+    root.update = next => {
+        hold.payload = next;
+        paint(next);
     };
     return root;
 }
@@ -1205,7 +1287,7 @@ export function buildView(activity, clockText) {
     case Kind.CHARGING:
         return buildChargingView(payload);
     case Kind.AGENT_TASK:
-        return buildAgentTaskView(payload);
+        return buildAgentTaskView(payload, expanded);
     case Kind.DATE:
         return buildDateView(payload);
     case Kind.FOCUS:

@@ -56,6 +56,7 @@ export function normalizeAgentTask(value) {
         state,
         detail: text(value.detail, 160),
         progress,
+        startedAt: timestampMs(value.startedAt) ?? updatedAt,
         updatedAt,
     };
 }

@@ -35,6 +35,12 @@ assertEq(stack.current().priority, Priority[Kind.DATE], 'date change has its act
 stack.remove('date');
 assertEq(stack.current().kind, Kind.MEDIA, 'date dismissal restores media');
 
+stack.upsert({id: 'agent-task', kind: Kind.AGENT_TASK, persistent: true, payload: {title: 'Review changes'}});
+stack.toggleExpanded();
+assertEq(stack.current().expanded, true, 'agent task opens its task viewer');
+stack.toggleExpanded();
+stack.remove('agent-task');
+
 stack.upsert({id: 'focus', kind: Kind.FOCUS, persistent: true});
 assertEq(stack.current().kind, Kind.FOCUS, 'Focus preempts media while Do Not Disturb is on');
 stack.remove('focus');

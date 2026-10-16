@@ -55,6 +55,11 @@ const date = fitGeometryToPanel(geometryFor('date'), 32);
 assert(date.compact === true, 'date change stays compact');
 assert(date.width === charging.width, 'date change shares charging-pill width');
 
+assert(geometryFor('agent-task').compact === true, 'agent task starts as a compact pulse');
+assert(isExpandedGeometry(geometryFor('agent-task', true)), 'agent task opens an expanded viewer');
+assert(geometryFor('agent-task', true).width === Geometry.agentExpanded.width,
+    'agent task viewer uses its designed width');
+
 const focus = fitGeometryToPanel(geometryFor('focus'), 32);
 assert(focus.compact === true, 'Focus stays compact');
 assert(focus.width === charging.width, 'Focus shares charging-pill width');

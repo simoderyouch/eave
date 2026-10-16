@@ -11,6 +11,7 @@ export const Geometry = {
     osd: {width: 272, height: 34, radius: 17, compact: true},
     system: {width: 248, height: 44, radius: 22, compact: false},
     notification: {width: 272, height: 56, radius: 18, compact: false},
+    agentExpanded: {width: 344, height: 84, radius: 22, compact: false},
     mediaExpanded: {width: 344, height: 84, radius: 22, compact: false},
 };
 
@@ -56,10 +57,11 @@ export function geometryFor(kind, expanded = false) {
     case 'mute':
         return Geometry.osd;
     case 'charging':
-    case 'agent-task':
     case 'date':
     case 'focus':
         return Geometry.charging;
+    case 'agent-task':
+        return expanded ? Geometry.agentExpanded : Geometry.charging;
     case 'bluetooth':
         return Geometry.system;
     case 'privacy':

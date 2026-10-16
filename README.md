@@ -90,6 +90,8 @@ Eave can show a compact local task pulse for AI agents, build scripts, or other 
 
 Valid states are `working`, `waiting`, `success`, `failed`, and `cancelled`. `updatedAt` accepts Unix seconds or milliseconds. Write updates atomically by replacing a temporary file, so Eave never reads an incomplete JSON document.
 
+Click an active task pulse to open its task viewer. It shows the task title, current state, elapsed time, and progress when the status file provides it. Click again to return to the compact pulse.
+
 Compact and expanded media tint the six-bar waveform from album art. Bars grow from the center (silence is a row of dots). GNOME has no per-app audio tap, so the motion on `main` is procedural rather than a live FFT.
 
 ## Open PRs (not on main)
